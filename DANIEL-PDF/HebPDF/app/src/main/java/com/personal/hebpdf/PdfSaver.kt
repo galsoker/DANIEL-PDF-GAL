@@ -14,8 +14,7 @@ object PdfSaver {
 
     /** PDF שומר טקסט לפי סדר חזותי - ממירים את סדר ההקלדה לסדר תצוגה (עברית + אנגלית + מספרים) */
     private fun visual(s: String): String =
-        Bidi(s, Bidi.DIRECTION_DEFAULT_RIGHT_TO_LEFT).writeReordered(Bidi.DO_MIRRORING or Bidi.KEEP_BASE_COMBINING)
-
+             Bidi(s, Bidi.DIRECTION_DEFAULT_RIGHT_TO_LEFT).writeReordered(Bidi.DO_MIRRORING.toInt() or Bidi.KEEP_BASE_COMBINING.toInt())
     fun save(ctx: Context, source: File, pages: Map<Int, List<Annot>>, out: OutputStream) {
         PDDocument.load(source).use { doc ->
             val fonts = HashMap<String, PDType0Font>()
