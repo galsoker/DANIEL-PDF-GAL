@@ -19,21 +19,21 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.9"
-      - name: Build
+      - name: Build from ZIP
         run: |
-          echo "== repo files =="; find . -maxdepth 3 -not -path "./.git*" | sort
-          F=$(find . -name settings.gradle.kts -not -path "./.git/*" | head -1)
-          if [ -z "$F" ]; then echo "settings.gradle.kts not found!"; exit 1; fi
-          cd "$(dirname "$F")"
+          Z=$(find . -name "Daniel-PDF-Gal.zip" -not -path "./.git/*" | head -1)
+          if [ -z "$Z" ]; then echo "Daniel-PDF-Gal.zip not found - upload it to the repo"; exit 1; fi
+          rm -rf /tmp/src && mkdir -p /tmp/src && unzip -q "$Z" -d /tmp/src
+          cd "$(dirname "$(find /tmp/src -name settings.gradle.kts | head -1)")"
           gradle assembleDebug --stacktrace
-          cp app/build/outputs/apk/debug/app-debug.apk "$GITHUB_WORKSPACE/DANIEL-PDF.apk"
+          cp app/build/outputs/apk/debug/app-debug.apk "$GITHUB_WORKSPACE/Daniel-PDF-Gal.apk"
       - uses: actions/upload-artifact@v4
         with:
-          name: DANIEL-PDF
-          path: DANIEL-PDF.apk
-      - name: Release (direct APK download)
+          name: Daniel-PDF-Gal
+          path: Daniel-PDF-Gal.apk
+      - name: Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ github.run_number }}
-          name: DANIEL PDF build ${{ github.run_number }}
-          files: DANIEL-PDF.apk
+          name: Daniel-PDF-Gal build ${{ github.run_number }}
+          files: Daniel-PDF-Gal.apk
