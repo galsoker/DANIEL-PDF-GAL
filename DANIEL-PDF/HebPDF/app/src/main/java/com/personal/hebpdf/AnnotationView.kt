@@ -79,7 +79,7 @@ class AnnotationView(ctx: Context) : View(ctx) {
         if (bitmap == null || tool == Tool.VIEW) return false
         val nx = (e.x - dest.left) / dest.width()
         val ny = (e.y - dest.top) / dest.height()
-        // דחיית כף יד: אם יש עט סטיילוס, מתעלמים ממגע אצבע בזמן ציור
+              // דחיית כף יד: אם יש עט סטיילוס, מתעלמים ממגע אצבע בזמן ציור
         if (e.getToolType(0) == MotionEvent.TOOL_TYPE_PALM) return true
         when (tool) {
             Tool.PEN, Tool.HIGHLIGHTER -> when (e.actionMasked) {
