@@ -17,11 +17,16 @@ jobs:
           distribution: temurin
           java-version: 17
       - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.9"
       - name: Build
         run: |
-          chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
-          cp app/build/outputs/apk/debug/app-debug.apk DANIEL-PDF.apk
+          echo "== repo files =="; find . -maxdepth 3 -not -path "./.git*" | sort
+          F=$(find . -name settings.gradle.kts -not -path "./.git/*" | head -1)
+          if [ -z "$F" ]; then echo "settings.gradle.kts not found!"; exit 1; fi
+          cd "$(dirname "$F")"
+          gradle assembleDebug --stacktrace
+          cp app/build/outputs/apk/debug/app-debug.apk "$GITHUB_WORKSPACE/DANIEL-PDF.apk"
       - uses: actions/upload-artifact@v4
         with:
           name: DANIEL-PDF
