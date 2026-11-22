@@ -1,0 +1,8 @@
+<resources>
+    <color name="brand">#C62828</color>
+    <color name="on_brand">#FFFFFF</color>
+    <color name="brand_container">#FFDAD6</color>
+    <color name="on_brand_container">#410002</color>
+    <color name="secondary">#775652</color>
+    <color name="icon_bg">#C62828</color>
+</resources>
